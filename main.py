@@ -35,19 +35,21 @@ def generate_bowling_template(spacing_inches):
             current_x = left_edge + (p * spacing_inches * inch)
             
             # Draw a mark for the pin (a circle and a crosshair)
-            c.setStrokeColorRGB(0, 0, 0)
-            number_of_circles = 3
-            for i in range(number_of_circles):
-                r = round((i + 1) / 10 * inch, 2)
-                c.circle(current_x, current_y, r)
-                if i == number_of_circles - 1:
-                    text = str(pin_count)
-                    text_width = c.stringWidth(text, c._fontname, c._fontsize)
-                    c.saveState()
-                    c.translate(current_x, current_y + 1.6 * r)
-                    c.rotate(180)
-                    c.drawString(-(text_width / 2), 0, text)
-                    c.restoreState()
+            def draw_pin_mark(c, current_x, current_y):
+                c.setStrokeColorRGB(0, 0, 0)
+                number_of_circles = 3
+                for i in range(number_of_circles):
+                    r = round((i + 1) / 10 * inch, 2)
+                    c.circle(current_x, current_y, r)
+                    if i == number_of_circles - 1:
+                        text = str(pin_count)
+                        text_width = c.stringWidth(text, c._fontname, c._fontsize)
+                        c.saveState()
+                        c.translate(current_x, current_y + 1.6 * r)
+                        c.rotate(180)
+                        c.drawString(-(text_width / 2), 0, text)
+                        c.restoreState()
+            draw_pin_mark(c, current_x, current_y)
 
 
             # c.line(current_x - 10, current_y, current_x + 10, current_y)
