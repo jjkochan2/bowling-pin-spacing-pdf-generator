@@ -3,23 +3,20 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 import math
 
-def generate_bowling_template(spacing_inches, filename="bowling_template.pdf"):
-    c = canvas.Canvas(filename, pagesize=letter)
-    width, height = letter
+def generate_bowling_template(spacing_inches):
+    filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
+    pagesize = letter
+    c = canvas.Canvas(filename, pagesize=pagesize)
+    width, height = pagesize
     
-    # Calculate the vertical distance between rows in an equilateral triangle
-    # Height = Side * sin(60 degrees)
     row_height = spacing_inches * (math.sqrt(3) / 2)
-    
-    # Center the entire setup on the page
-    # Total width of back row is 3 * spacing
-    # Total height of triangle is 3 * row_height
+
     start_x = width / 2
     total_tri_height = 3 * row_height * inch
     start_y = (height / 2) + (total_tri_height / 2)
     
     c.setFont("Helvetica", 10)
-    c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {spacing_inches}\"")
+    # c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {round(spacing_inches, 3)}\"")
     
     pin_count = 1
     
@@ -39,12 +36,24 @@ def generate_bowling_template(spacing_inches, filename="bowling_template.pdf"):
             
             # Draw a mark for the pin (a circle and a crosshair)
             c.setStrokeColorRGB(0, 0, 0)
-            c.circle(current_x, current_y, 0.1 * inch, stroke=1, fill=0)
-            c.line(current_x - 10, current_y, current_x + 10, current_y)
-            c.line(current_x, current_y - 10, current_x, current_y + 10)
+            number_of_circles = 3
+            for i in range(number_of_circles):
+                r = round((i + 1) / 10 * inch, 2)
+                c.circle(current_x, current_y, r)
+                if i == number_of_circles - 1:
+                    text = str(pin_count)
+                    text_width = c.stringWidth(text, c._fontname, c._fontsize)
+                    c.saveState()
+                    c.translate(current_x, current_y + 1.6 * r)
+                    c.rotate(180)
+                    c.drawString(-(text_width / 2), 0, text)
+                    c.restoreState()
+
+
+            # c.line(current_x - 10, current_y, current_x + 10, current_y)
+            # c.line(current_x, current_y - 10, current_x, current_y + 10)
             
             # Label the pin number
-            c.drawString(current_x + 10, current_y + 5, str(pin_count))
             pin_count += 1
 
     c.showPage()
