@@ -3,20 +3,20 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 import math
 
-def draw_pin_mark(c, x, y, pin_number):
-    c.setStrokeColorRGB(0, 0, 0)
+def draw_pin_mark(canvas, x, y, pin_number):
+    canvas.setStrokeColorRGB(0, 0, 0)
     number_of_circles = 3
     for i in range(number_of_circles):
         r = round((i + 1) / 10 * inch, 2)
-        c.circle(x, y, r)
+        canvas.circle(x, y, r)
         if i == number_of_circles - 1:
             text = str(pin_number)
-            text_width = c.stringWidth(text, c._fontname, c._fontsize)
-            c.saveState()
-            c.translate(x, y + 1.6 * r)
-            c.rotate(180)
-            c.drawString(-(text_width / 2), 0, text)
-            c.restoreState()
+            text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
+            canvas.saveState()
+            canvas.translate(x, y + 1.6 * r)
+            canvas.rotate(180)
+            canvas.drawString(-(text_width / 2), 0, text)
+            canvas.restoreState()
 
 def generate_bowling_template(spacing_inches):
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
