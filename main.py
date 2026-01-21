@@ -12,11 +12,7 @@ def draw_pin_mark(canvas, x, y, pin_number):
         if i == number_of_circles - 1:
             text = str(pin_number)
             text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
-            canvas.saveState()
-            canvas.translate(x, y + 1.6 * r)
-            canvas.rotate(180)
-            canvas.drawString(-(text_width / 2), 0, text)
-            canvas.restoreState()
+            canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
 
 def generate_bowling_template(spacing_inches):
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
