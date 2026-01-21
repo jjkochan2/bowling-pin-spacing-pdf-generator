@@ -1,3 +1,5 @@
+from reportlab.graphics.shapes import Drawing, Circle
+from reportlab.graphics import renderPDF
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -15,6 +17,15 @@ def draw_pin_mark(canvas, x, y, pin_number):
             canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
 
 def generate_bowling_template(spacing_inches):
+    d = Drawing()
+    d.add(Circle(0 * inch, 0 * inch, 1 * inch))
+    d.add(Circle(2 * inch, 2 * inch, 1 * inch))
+    x1, y1, x2, y2 = d.getBounds()
+    d.width = x2 - x1
+    d.height = y2 - y1
+    d.renderScale = 1 
+    d.transform = (1, 0, 0, 1, -x1, -y1)
+    renderPDF.drawToFile(d, "drawing.pdf")
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
     pagesize = letter
     c = canvas.Canvas(filename, pagesize=pagesize)
