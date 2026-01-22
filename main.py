@@ -34,28 +34,21 @@ def generate_bowling_template(spacing_inches):
     width, height = pagesize
     
     row_height = spacing_inches * (math.sqrt(3) / 2)
-
-    start_x = width / 2
-    total_tri_height = 3 * row_height * inch
-    start_y = (height / 2) + (total_tri_height / 2)
-    
     c.setFont("Helvetica", 10)
     # c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {round(spacing_inches, 3)}\"")
     
     pin_count = 1
-    
-    # Generate 4 rows (1, 2, 3, 4 pins per row)
     for row in range(4):
         # Current row's vertical position
-        current_y = start_y - (row * row_height * inch)
+        current_y = row * row_height * inch
         
         pins_in_row = row + 1
         
         # Calculate the horizontal offset to keep the row centered
         row_width = (pins_in_row - 1) * spacing_inches * inch
-        left_edge = start_x - (row_width / 2)
+        left_edge = -(row_width / 2)
         
-        for p in reversed(range(pins_in_row)):
+        for p in range(pins_in_row):
             current_x = left_edge + (p * spacing_inches * inch)
             
             # Draw a mark for the pin
