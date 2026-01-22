@@ -59,11 +59,6 @@ def generate_bowling_template(spacing_inches):
             # Draw a mark for the pin
             draw_pin_mark(c, current_x, current_y, pin_count)
 
-
-            # c.line(current_x - 10, current_y, current_x + 10, current_y)
-            # c.line(current_x, current_y - 10, current_x, current_y + 10)
-            
-            # Label the pin number
             pin_count += 1
 
     c.showPage()
