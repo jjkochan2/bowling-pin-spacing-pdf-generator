@@ -13,6 +13,17 @@ def save_drawing(drawing):
     drawing.transform = (1, 0, 0, 1, -x1, -y1)
     renderPDF.drawToFile(drawing, "drawing.pdf")
 
+def draw_pin_mark_canvas(canvas, x, y, pin_number):
+    canvas.setStrokeColorRGB(0, 0, 0)
+    number_of_circles = 3
+    for i in range(number_of_circles):
+        r = round((i + 1) / 10 * inch, 2)
+        canvas.circle(x, y, r)
+        if i == number_of_circles - 1:
+            text = str(pin_number)
+            text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
+            canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
+
 def draw_pin_mark(canvas, drawing, x, y, pin_number):
     canvas.setStrokeColorRGB(0, 0, 0)
     number_of_circles = 3
