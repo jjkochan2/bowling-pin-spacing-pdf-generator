@@ -26,8 +26,6 @@ def draw_pin_mark(canvas, x, y, pin_number):
 
 def generate_bowling_template(spacing_inches):
     d = Drawing()
-    d.add(Circle(0 * inch, 0 * inch, 1 * inch))
-    d.add(Circle(2 * inch, 2 * inch, 1 * inch))
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
     pagesize = letter
     c = canvas.Canvas(filename, pagesize=pagesize)
@@ -58,7 +56,7 @@ def generate_bowling_template(spacing_inches):
         for p in reversed(range(pins_in_row)):
             current_x = left_edge + (p * spacing_inches * inch)
             
-            # Draw a mark for the pin (a circle and a crosshair)
+            # Draw a mark for the pin
             draw_pin_mark(c, current_x, current_y, pin_count)
 
 
