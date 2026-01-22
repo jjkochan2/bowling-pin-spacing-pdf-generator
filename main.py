@@ -29,7 +29,7 @@ def draw_pin_mark(drawing, x, y, pin_number):
     number_of_circles = 3
     for i in range(number_of_circles):
         r = round((i + 1) / 10 * inch, 2)
-        drawing.add(Circle(x, y, r, strokeWidth=1, fillColor='transparent'))
+        drawing.add(Circle(x, y, r, strokeWidth=1, fillColor=None))
         if i == number_of_circles - 1:
             text = str(pin_number)
             drawing.add(String(x, y - 1.5 * r, text, textAnchor='middle'))
