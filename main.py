@@ -24,18 +24,14 @@ def draw_pin_mark_canvas(canvas, x, y, pin_number):
             text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
             canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
 
-def draw_pin_mark(canvas, drawing, x, y, pin_number):
-    canvas.setStrokeColorRGB(0, 0, 0)
+def draw_pin_mark(drawing, x, y, pin_number):
     number_of_circles = 3
     for i in range(number_of_circles):
         r = round((i + 1) / 10 * inch, 2)
-        canvas.circle(x, y, r)
         drawing.add(Circle(x, y, r, strokeWidth=1, fillColor='transparent'))
         if i == number_of_circles - 1:
             text = str(pin_number)
-            text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
-            canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
-            drawing.add(String(x - (text_width / 2), y - 1.5 * r, text))
+            drawing.add(String(x, y - 1.5 * r, text, textAnchor='middle'))
 
 def generate_bowling_template(spacing_inches):
     d = Drawing()
@@ -63,7 +59,7 @@ def generate_bowling_template(spacing_inches):
             current_x = left_edge + (p * spacing_inches * inch)
             
             # Draw a mark for the pin
-            draw_pin_mark(c, d, current_x, current_y, pin_count)
+            draw_pin_mark(d, current_x, current_y, pin_count)
 
             pin_count += 1
 
