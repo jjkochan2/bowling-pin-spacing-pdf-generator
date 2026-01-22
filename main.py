@@ -55,22 +55,24 @@ def draw_pin_layout(drawing, x, y, spacing_inches):
 
             pin_count += 1
 
-
-def generate_bowling_template(spacing_inches):
-    d = Drawing()
+# remove after fully transitioned to Drawing
+def generate_bowling_template_canvas(spacing_inches):
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
     pagesize = letter
     c = canvas.Canvas(filename, pagesize=pagesize)
-    
     c.setFont("Helvetica", 10)
-    # c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {round(spacing_inches, 3)}\"")
+    c.showPage()
+    c.save()
+    print(f"Success! '{filename}' has been created.")
+
+
+def generate_bowling_template(spacing_inches):
+    d = Drawing()
     
     draw_pin_layout(d, 0, 0, spacing_inches)
 
-    c.showPage()
-    c.save()
     save_drawing(d)
-    print(f"Success! '{filename}' has been created.")
+
 
 FULLSCALE_PIN_SPACING = 12 # [in]
 FULLSCALE_PIN_WIDTH = 4.766 # [in]
