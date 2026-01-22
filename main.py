@@ -34,20 +34,12 @@ def draw_pin_mark(drawing, x, y, pin_number):
             text = str(pin_number)
             drawing.add(String(x, y - 1.5 * r, text, textAnchor='middle'))
 
-def generate_bowling_template(spacing_inches):
-    d = Drawing()
-    filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
-    pagesize = letter
-    c = canvas.Canvas(filename, pagesize=pagesize)
-    
+def draw_pin_layout(drawing, x, y, spacing_inches):
     row_height = spacing_inches * (math.sqrt(3) / 2)
-    c.setFont("Helvetica", 10)
-    # c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {round(spacing_inches, 3)}\"")
-    
     pin_count = 1
     for row in range(4):
         # Current row's vertical position
-        current_y = row * row_height * inch
+        current_y = y + row * row_height * inch
         
         pins_in_row = row + 1
         
@@ -56,12 +48,24 @@ def generate_bowling_template(spacing_inches):
         left_edge = -(row_width / 2)
         
         for p in range(pins_in_row):
-            current_x = left_edge + (p * spacing_inches * inch)
+            current_x = x + left_edge + (p * spacing_inches * inch)
             
             # Draw a mark for the pin
-            draw_pin_mark(d, current_x, current_y, pin_count)
+            draw_pin_mark(drawing, current_x, current_y, pin_count)
 
             pin_count += 1
+
+
+def generate_bowling_template(spacing_inches):
+    d = Drawing()
+    filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
+    pagesize = letter
+    c = canvas.Canvas(filename, pagesize=pagesize)
+    
+    c.setFont("Helvetica", 10)
+    # c.drawString(0.5 * inch, 10.5 * inch, f"Bowling Pin Template - Spacing: {round(spacing_inches, 3)}\"")
+    
+    draw_pin_layout(d, 0, 0, spacing_inches)
 
     c.showPage()
     c.save()
