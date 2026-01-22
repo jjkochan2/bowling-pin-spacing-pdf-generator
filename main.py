@@ -39,7 +39,6 @@ def generate_bowling_template(spacing_inches):
     filename = f"bowling_template_{round(spacing_inches, 3)}in_spacing.pdf"
     pagesize = letter
     c = canvas.Canvas(filename, pagesize=pagesize)
-    width, height = pagesize
     
     row_height = spacing_inches * (math.sqrt(3) / 2)
     c.setFont("Helvetica", 10)
