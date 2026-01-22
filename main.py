@@ -1,4 +1,4 @@
-from reportlab.graphics.shapes import Drawing, String, Circle
+from reportlab.graphics.shapes import Drawing, String, Circle, Rect
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
@@ -65,9 +65,13 @@ def generate_bowling_template_canvas(spacing_inches):
     c.save()
     print(f"Success! '{filename}' has been created.")
 
+def draw_lane_outline(drawing, x, y, spacing_inches):
+    drawing.add(Rect(x, y, FULLSCALE_LANE_WIDTH * SCALE, -FULLSCALE_LANE_HEIGHT * SCALE, strokeWidth=1, fillColor=None))
 
 def generate_bowling_template(spacing_inches):
     d = Drawing()
+
+    draw_lane_outline(d, 0, 0, spacing_inches)
     
     draw_pin_layout(d, 0, 0, spacing_inches)
 
@@ -76,7 +80,10 @@ def generate_bowling_template(spacing_inches):
 
 FULLSCALE_PIN_SPACING = 12 # [in]
 FULLSCALE_PIN_WIDTH = 4.766 # [in]
+FULLSCALE_LANE_WIDTH = 41.5 * inch
+FULLSCALE_LANE_HEIGHT = 60 * 12 * inch
 MINI_PIN_WIDTH = 0.519 # [in]
+SCALE = MINI_PIN_WIDTH / FULLSCALE_PIN_WIDTH
 
 MINI_SPACING_INCHES = FULLSCALE_PIN_SPACING / FULLSCALE_PIN_WIDTH * MINI_PIN_WIDTH
 
