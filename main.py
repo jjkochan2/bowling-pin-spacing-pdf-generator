@@ -26,14 +26,17 @@ def draw_pin_mark_canvas(canvas, x, y, pin_number):
             text_width = canvas.stringWidth(text, canvas._fontname, canvas._fontsize)
             canvas.drawString(x - (text_width / 2), y - 1.5 * r, text)
 
-def draw_pin_mark(drawing, x, y, pin_number):
+def draw_pin_mark(drawing, x, y, pin_number, scale):
     number_of_circles = 3
+    r = FULLSCALE_PIN_BOTTOM_WIDTH / 2 * scale
+    r_max = FULLSCALE_PIN_MAX_WIDTH / 2 * scale
     for i in range(number_of_circles):
-        r = round((i + 1) / 10 * inch, 2)
+        print(f"r: {r}")
         drawing.add(Circle(x, y, r, strokeWidth=1, fillColor=None))
         if i == number_of_circles - 1:
             text = str(pin_number)
             drawing.add(String(x, y - 1.5 * r, text, textAnchor='middle'))
+        r += (r_max - r) / (number_of_circles - 1) * (i + 1)
 
 def draw_pin_layout(drawing, x, y, scale):
     x *= scale
@@ -55,7 +58,7 @@ def draw_pin_layout(drawing, x, y, scale):
             current_x = x + left_edge + (p * spacing_inches)
             
             # Draw a mark for the pin
-            draw_pin_mark(drawing, current_x, current_y, pin_count)
+            draw_pin_mark(drawing, current_x, current_y, pin_count, scale)
 
             pin_count += 1
 
@@ -76,8 +79,6 @@ def generate_bowling_template(scale):
     d = Drawing()
 
     draw_pin_layout(d, FULLSCALE_LANE_WIDTH / 2, FULLSCALE_LANE_HEIGHT, scale)
-    draw_pin_layout(d, FULLSCALE_LANE_WIDTH / 2 + 10 * inch, FULLSCALE_LANE_HEIGHT, scale)
-    draw_pin_layout(d, FULLSCALE_LANE_WIDTH / 2 - 10 * inch, FULLSCALE_LANE_HEIGHT, scale)
 
     draw_lane_outline(d, 0, 0, scale)
     
@@ -85,11 +86,12 @@ def generate_bowling_template(scale):
 
 
 FULLSCALE_PIN_SPACING = 12 * inch
-FULLSCALE_PIN_WIDTH = 4.766 * inch
+FULLSCALE_PIN_MAX_WIDTH = 4.766 * inch
+FULLSCALE_PIN_BOTTOM_WIDTH = 2.031 * inch
 FULLSCALE_LANE_WIDTH = 41.5 * inch
 FULLSCALE_LANE_HEIGHT = 60 * 12 * inch
-MINI_PIN_WIDTH = 0.519 * inch
-SCALE = MINI_PIN_WIDTH / FULLSCALE_PIN_WIDTH
+MINI_PIN_MAX_WIDTH = 0.519 * inch
+SCALE = MINI_PIN_MAX_WIDTH / FULLSCALE_PIN_MAX_WIDTH
 
 if __name__ == "__main__":
     generate_bowling_template(SCALE)
