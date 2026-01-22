@@ -13,6 +13,7 @@ def save_drawing(drawing):
     drawing.transform = (1, 0, 0, 1, -x1, -y1)
     renderPDF.drawToFile(drawing, "drawing.pdf")
 
+# remove after fully transitioned to Drawing
 def draw_pin_mark_canvas(canvas, x, y, pin_number):
     canvas.setStrokeColorRGB(0, 0, 0)
     number_of_circles = 3
